@@ -1,0 +1,57 @@
+:root {
+  --honeydew: #E5F4E3;
+  --argentinian-blue: #5DA9E9;
+  --marian-blue: #003F91;
+  --blue-50: #198eee;
+  --gold: #fecc4c;
+  --marigold: #ffac33;
+}
+
+svg { 
+  background-color: var(--argentinian-blue); 
+  border-radius: 35px;
+}
+
+svg text { fill: var(--honeydew); }
+
+body {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  color: var(--honeydew);
+  background-color: var(--marian-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 { margin: 30px auto; }
+
+h2 { margin: 0 auto 15px; }
+
+.bar:nth-child(odd) { fill: var(--gold); }
+
+.bar:nth-child(even) { fill: var(--marigold); }
+
+.bar:hover { fill: var(--honeydew); }
+
+#tooltip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  width: 150px;
+  height: 50px;
+  padding: 2px;
+  font: 18px;
+  background: var(--marian-blue);
+  box-shadow: 1px 1px 10px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.info a:visited { fill: var(--honeydew); }
+
+.info a:hover { fill: var(--gold); }
+
+.info a:active { fill: var(--marigold); }
