@@ -5,44 +5,10 @@ export function getBubblePlot(svg, typesList, pokemonList) {
   const width = 640;
   const height = 400;
 
-  const pokemonByType = d3.flatGroup(
-    pokemonList,
-    (data) => data.types[0],
-    (data) => data.types[1] ?? 'none'
-  );
-
   const xPosition = 0;
   const yPosition = 0;
 
-  const pokemonByFirstGenTypes = [];
-
-  for (let i = 0; i < typesList.length; i++) {
-    const currentType = typesList[i];
-    const pokemonList = [];
-
-    for (let j = 0; j < pokemonByType.length; j++) {
-      const currentPokemonTypeGrouping = pokemonByType[j];
-
-      const currentTypeMatchesGrouping =
-        currentType === currentPokemonTypeGrouping[0] ||
-        currentType === currentPokemonTypeGrouping[1];
-
-      if (currentTypeMatchesGrouping) {
-        for (let k = 0; k < currentPokemonTypeGrouping[2].length; k++) {
-          const currentPokemonName = currentPokemonTypeGrouping[2][k].name;
-
-          if (!pokemonList.includes(currentPokemonName)) {
-            pokemonList.push(currentPokemonName);
-          }
-        }
-      }
-    }
-
-    pokemonByFirstGenTypes.push({
-      type: currentType,
-      pokemon: pokemonList,
-    });
-  }
+  const pokemonByFirstGenTypes = _getPokemonByType(typesList, pokemonList);
 
   console.log(pokemonByFirstGenTypes);
 
@@ -85,4 +51,44 @@ export function getBubblePlot(svg, typesList, pokemonList) {
   //   .attr('font-size', (data) => data.radius / 2)
   //   .attr('dy', (data) => data.cy)
   //   .text((data) => data.label);
+}
+
+function _getPokemonByType(typesList, pokemonList) {
+  const pokemonByType = d3.flatGroup(
+    pokemonList,
+    (data) => data.types[0],
+    (data) => data.types[1] ?? 'none'
+  );
+
+  const pokemonByFirstGenTypes = [];
+
+  for (let i = 0; i < typesList.length; i++) {
+    const currentType = typesList[i];
+    const pokemonList = [];
+
+    for (let j = 0; j < pokemonByType.length; j++) {
+      const currentPokemonTypeGrouping = pokemonByType[j];
+
+      const currentTypeMatchesGrouping =
+        currentType === currentPokemonTypeGrouping[0] ||
+        currentType === currentPokemonTypeGrouping[1];
+
+      if (currentTypeMatchesGrouping) {
+        for (let k = 0; k < currentPokemonTypeGrouping[2].length; k++) {
+          const currentPokemonName = currentPokemonTypeGrouping[2][k].name;
+
+          if (!pokemonList.includes(currentPokemonName)) {
+            pokemonList.push(currentPokemonName);
+          }
+        }
+      }
+    }
+
+    pokemonByFirstGenTypes.push({
+      type: currentType,
+      pokemon: pokemonList,
+    });
+  }
+
+  return pokemonByFirstGenTypes;
 }
