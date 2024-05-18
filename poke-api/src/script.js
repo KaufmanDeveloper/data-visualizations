@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const typesList = await fetchGen1PokemonTypes();
   const pokemonList = await fetchGen1Pokemon();
 
-  console.log(typesList);
-  console.log(pokemonList);
+  // console.log(typesList);
+  // console.log(pokemonList);
 
   getBubblePlot(svg, typesList, pokemonList);
 

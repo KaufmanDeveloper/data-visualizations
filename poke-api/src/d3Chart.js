@@ -5,51 +5,84 @@ export function getBubblePlot(svg, typesList, pokemonList) {
   const width = 640;
   const height = 400;
 
-  const pokemonByType = d3.group(
+  const pokemonByType = d3.flatGroup(
     pokemonList,
     (data) => data.types[0],
-    (data) => data.types[1]
+    (data) => data.types[1] ?? 'none'
   );
 
-  console.log(pokemonByType);
+  const xPosition = 0;
+  const yPosition = 0;
 
-  const pokemonByFirstType = pokemonByType.get(typesList[0]);
+  const pokemonByFirstGenTypes = [];
 
-  console.log(pokemonByFirstType);
+  for (let i = 0; i < typesList.length; i++) {
+    const currentType = typesList[i];
+    const pokemonList = [];
 
-  // Practice is below, will remove
-  const n = 20;
-  const marks = [];
+    for (let j = 0; j < pokemonByType.length; j++) {
+      const currentPokemonTypeGrouping = pokemonByType[j];
 
-  for (let i = 0; i < n; i++) {
-    marks.push({
-      y: i * 3,
-      width: 20,
-      height: 2,
+      const currentTypeMatchesGrouping =
+        currentType === currentPokemonTypeGrouping[0] ||
+        currentType === currentPokemonTypeGrouping[1];
+
+      if (currentTypeMatchesGrouping) {
+        for (let k = 0; k < currentPokemonTypeGrouping[2].length; k++) {
+          const currentPokemonName = currentPokemonTypeGrouping[2][k].name;
+
+          if (!pokemonList.includes(currentPokemonName)) {
+            pokemonList.push(currentPokemonName);
+          }
+        }
+      }
+    }
+
+    pokemonByFirstGenTypes.push({
+      type: currentType,
+      pokemon: pokemonList,
     });
   }
 
-  console.log(marks);
+  console.log(pokemonByFirstGenTypes);
 
-  const rectangles = svg
-    .selectAll('rect')
-    .data(marks)
-    .join('rect')
-    .attr('y', (data) => data.y)
-    .attr('width', (data) => data.width)
-    .attr('height', (data) => data.height);
+  // var x = d3.scaleOrdinal().domain(typesList);
 
-  console.log(rectangles);
+  // Practice is below, will remove
+  // const n = 10;
+  // const marks = [];
 
-  // svg
-  //   .selectAll('circle')
-  //   .data(pokemonByType)
-  //   .join('circle')
-  //   // set the attributes for the circles based on the data
-  //   .attr('fill', 'green')
-  //   // this function syntax works too
-  //   // it behaves the same as the above arrow functions
-  //   .attr('r', function (circ) {
-  //     return circ.radius;
+  // for (let i = 0; i < n; i++) {
+  //   marks.push({
+  //     cx: i * 12,
+  //     cy: 5,
+  //     radius: 4,
+  //     label: `Node ${i}`,
   //   });
+  // }
+
+  // console.log(marks);
+
+  // const circles = svg
+  //   .selectAll('circle')
+  //   .data(marks)
+  //   .join('circle')
+  //   .attr('cx', (data) => data.cx)
+  //   .attr('cy', (data) => data.cy)
+  //   .attr('r', (data) => data.radius)
+  //   .attr('stroke', 'black')
+  //   .attr('stroke-width', 0.5)
+  //   .attr('fill', 'white')
+  //   .text('Example');
+
+  // const text = svg
+  //   .selectAll('text')
+  //   .attr('pointer-events', 'none')
+  //   .attr('text-anchor', 'middle')
+  //   .data(marks)
+  //   .join('text')
+  //   .attr('dx', (data) => data.cx - data.radius * 0.75)
+  //   .attr('font-size', (data) => data.radius / 2)
+  //   .attr('dy', (data) => data.cy)
+  //   .text((data) => data.label);
 }
