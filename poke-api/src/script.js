@@ -15,15 +15,9 @@ const color = d3
 let svg = d3
   .select('#content')
   .append('svg')
-  .attr('viewBox', `-${width / 2} -${height / 2} ${width} ${height}`)
+  .attr('viewBox', `0 0 100 100`)
   .attr('width', width)
-  .attr('height', height)
-  .attr(
-    'style',
-    `max-width: 100%; height: auto; display: block; margin: 0 -14px; background: ${color(
-      0
-    )}; cursor: pointer;`
-  );
+  .attr('height', height);
 
 document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('loading').innerHTML = 'loading...';
