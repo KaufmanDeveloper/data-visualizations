@@ -6,11 +6,13 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
     pokemonByFirstGenTypes
   );
 
-  const typeRange = _getRangeArray(typesList, width - 200);
+  const xTypeRange = _getXRangeArray(typesList);
+  const yTypeRange = _getYRangeArray(typesList);
 
-  var xPosition = d3.scaleOrdinal().domain(typesList).range(typeRange);
+  var xPosition = d3.scaleOrdinal().domain(typesList).range(xTypeRange);
+  var yPosition = d3.scaleOrdinal().domain(typesList).range(yTypeRange);
 
-  const radius = 6;
+  const radius = 10;
 
   var node = svg
     .append('g')
@@ -42,7 +44,9 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
       d3
         .forceY()
         .strength(0.1)
-        .y(height / 2)
+        .y(function (d) {
+          return yPosition(d.type);
+        })
     )
     .force(
       'center',
@@ -132,15 +136,43 @@ function _getPokemonByTypeFlat(pokemonByType) {
   return flatPokemonByType;
 }
 
-function _getRangeArray(typesList, width) {
-  const separateAmount = width / typesList.length;
+function _getXRangeArray(typesList) {
+  const separateAmount = 200;
   let currentXPosition = 0;
   let range = [];
+  let rowCounter = 0;
 
   for (let i = 0; i < typesList.length; i++) {
     range.push(currentXPosition);
 
+    rowCounter++;
     currentXPosition += separateAmount;
+
+    if (rowCounter >= 5) {
+      currentXPosition = 0;
+      rowCounter = 0;
+    }
+  }
+
+  return range;
+}
+
+function _getYRangeArray(typesList) {
+  const separateAmount = 300;
+
+  let currentYPosition = 0;
+  let range = [];
+  let rowCounter = 0;
+
+  for (let i = 0; i < typesList.length; i++) {
+    range.push(currentYPosition);
+
+    rowCounter++;
+
+    if (rowCounter >= 5) {
+      currentYPosition += separateAmount;
+      rowCounter = 0;
+    }
   }
 
   return range;
