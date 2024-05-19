@@ -12,20 +12,19 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
   var xPosition = d3.scaleOrdinal().domain(typesList).range(xTypeRange);
   var yPosition = d3.scaleOrdinal().domain(typesList).range(yTypeRange);
 
-  const radius = 10;
+  const separationAmount = 18;
 
   var node = svg
     .append('g')
-    .selectAll('circle')
+    .selectAll('text')
     .data(pokemonByFirstGenTypesFlat)
     .enter()
-    .append('circle')
-    .attr('r', radius)
-    .attr('cx', width / 2)
-    .attr('cy', height / 2)
-    .style('fill', (d) => d.color)
-    .attr('stroke', 'black')
-    .style('stroke-width', 0.5)
+    .append('text')
+    .attr('x', width / 2)
+    .attr('y', height / 2)
+    .attr('fill', (d) => d.color)
+    .attr('cursor', 'pointer')
+    .text((d) => d.pokemon)
     .call(
       d3
         .drag() // call specific function when circle is dragged
@@ -65,21 +64,17 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
     .force('charge', d3.forceManyBody().strength(1)) // Nodes are attracted one each other of value is > 0
     .force(
       'collide',
-      d3
-        .forceCollide()
-        .strength(0.1)
-        .radius(radius * 1.3)
-        .iterations(1)
+      d3.forceCollide().strength(0.1).radius(separationAmount).iterations(1)
     ); // Force that avoids circle overlapping
 
   // Apply these forces to the nodes and update their positions.
   // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
   simulation.nodes(pokemonByFirstGenTypesFlat).on('tick', function (d) {
     node
-      .attr('cx', function (d) {
+      .attr('x', function (d) {
         return d.x;
       })
-      .attr('cy', function (d) {
+      .attr('y', function (d) {
         return d.y;
       });
   });

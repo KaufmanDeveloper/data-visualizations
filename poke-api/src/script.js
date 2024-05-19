@@ -20,12 +20,12 @@ let svg = d3
   .attr('height', height);
 
 document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('loading').innerHTML = 'loading...';
+  document.getElementById('loading').innerHTML = 'Fetching pokemon...';
 
   const typesList = await fetchGen1PokemonTypes();
   const pokemonList = await fetchGen1Pokemon();
 
   getBubblePlot(svg, typesList, pokemonList, width, height);
 
-  document.getElementById('loading').innerHTML = 'loaded!';
+  document.getElementById('loading').innerHTML = 'Pokemon loaded!';
 });
