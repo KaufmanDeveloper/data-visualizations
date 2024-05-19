@@ -25,7 +25,14 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
     .attr('cy', height / 2)
     .style('fill', (d) => d.color)
     .attr('stroke', 'black')
-    .style('stroke-width', 0.5);
+    .style('stroke-width', 0.5)
+    .call(
+      d3
+        .drag() // call specific function when circle is dragged
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)
+    );
 
   // Features of the forces applied to the nodes:
   var simulation = d3
@@ -76,6 +83,22 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
         return d.y;
       });
   });
+
+  // What happens when a circle is dragged?
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.03).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0.03);
+    d.fx = null;
+    d.fy = null;
+  }
 }
 
 function _getPokemonByType(typesList, pokemonList) {
