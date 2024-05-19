@@ -1,11 +1,10 @@
 {
 	"info": {
-		"_postman_id": "bebf2ce6-331d-48fd-a5ed-577b96a11f1b",
+		"_postman_id": "6ba7e7a0-5634-41b0-9650-58bbeae0b4ad",
 		"name": "Pokemon API",
 		"description": "\r\nThis is the Pokemon API I created for testing purposes. \r\n\r\nPlease reference the official documentation here: https://pokeapi.co/docs/v2 ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "11253945",
-		"_collection_link": "https://www.postman.com/postman/workspace/postman-team-collections/collection/12403653-bebf2ce6-331d-48fd-a5ed-577b96a11f1b?action=share&source=collection_link&creator=11253945"
+		"_exporter_id": "11253945"
 	},
 	"item": [
 		{
@@ -391,6 +390,14 @@
 					"raw": ""
 				},
 				"description": "https://pokeapi.co/api/v2/ability/{id or name}/\r\n\r\nAbilities provide passive effects for Pokémon in battle or in the overworld. Pokémon have multiple possible abilities but can have only one ability at a time. Check out Bulbapedia for greater detail.\r\n\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Types",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

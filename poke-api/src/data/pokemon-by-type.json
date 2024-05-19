@@ -1,0 +1,274 @@
+[
+  {
+    "type": "normal",
+    "pokemon": [
+      "pidgey",
+      "pidgeotto",
+      "pidgeot",
+      "spearow",
+      "fearow",
+      "farfetchd",
+      "doduo",
+      "dodrio",
+      "rattata",
+      "raticate",
+      "meowth",
+      "persian",
+      "lickitung",
+      "chansey",
+      "kangaskhan",
+      "tauros",
+      "ditto",
+      "eevee",
+      "porygon",
+      "snorlax",
+      "jigglypuff",
+      "wigglytuff"
+    ]
+  },
+  {
+    "type": "fighting",
+    "pokemon": [
+      "poliwrath",
+      "mankey",
+      "primeape",
+      "machop",
+      "machoke",
+      "machamp",
+      "hitmonlee",
+      "hitmonchan"
+    ]
+  },
+  {
+    "type": "flying",
+    "pokemon": [
+      "charizard",
+      "moltres",
+      "gyarados",
+      "butterfree",
+      "scyther",
+      "pidgey",
+      "pidgeotto",
+      "pidgeot",
+      "spearow",
+      "fearow",
+      "farfetchd",
+      "doduo",
+      "dodrio",
+      "zubat",
+      "golbat",
+      "zapdos",
+      "aerodactyl",
+      "articuno",
+      "dragonite"
+    ]
+  },
+  {
+    "type": "poison",
+    "pokemon": [
+      "bulbasaur",
+      "ivysaur",
+      "venusaur",
+      "oddish",
+      "gloom",
+      "vileplume",
+      "bellsprout",
+      "weepinbell",
+      "victreebel",
+      "tentacool",
+      "tentacruel",
+      "weedle",
+      "kakuna",
+      "beedrill",
+      "venonat",
+      "venomoth",
+      "ekans",
+      "arbok",
+      "nidoran-f",
+      "nidorina",
+      "nidoran-m",
+      "nidorino",
+      "grimer",
+      "muk",
+      "koffing",
+      "weezing",
+      "nidoqueen",
+      "nidoking",
+      "zubat",
+      "golbat",
+      "gastly",
+      "haunter",
+      "gengar"
+    ]
+  },
+  {
+    "type": "ground",
+    "pokemon": [
+      "nidoqueen",
+      "nidoking",
+      "sandshrew",
+      "sandslash",
+      "diglett",
+      "dugtrio",
+      "cubone",
+      "marowak",
+      "rhyhorn",
+      "rhydon",
+      "geodude",
+      "graveler",
+      "golem",
+      "onix"
+    ]
+  },
+  {
+    "type": "rock",
+    "pokemon": [
+      "rhyhorn",
+      "rhydon",
+      "geodude",
+      "graveler",
+      "golem",
+      "onix",
+      "omanyte",
+      "omastar",
+      "kabuto",
+      "kabutops",
+      "aerodactyl"
+    ]
+  },
+  {
+    "type": "bug",
+    "pokemon": [
+      "caterpie",
+      "metapod",
+      "pinsir",
+      "butterfree",
+      "scyther",
+      "weedle",
+      "kakuna",
+      "beedrill",
+      "venonat",
+      "venomoth",
+      "paras",
+      "parasect"
+    ]
+  },
+  {
+    "type": "ghost",
+    "pokemon": ["gastly", "haunter", "gengar"]
+  },
+  {
+    "type": "fire",
+    "pokemon": [
+      "charmander",
+      "charmeleon",
+      "vulpix",
+      "ninetales",
+      "growlithe",
+      "arcanine",
+      "ponyta",
+      "rapidash",
+      "magmar",
+      "flareon",
+      "charizard",
+      "moltres"
+    ]
+  },
+  {
+    "type": "water",
+    "pokemon": [
+      "squirtle",
+      "wartortle",
+      "blastoise",
+      "psyduck",
+      "golduck",
+      "poliwag",
+      "poliwhirl",
+      "seel",
+      "shellder",
+      "krabby",
+      "kingler",
+      "horsea",
+      "seadra",
+      "goldeen",
+      "seaking",
+      "staryu",
+      "magikarp",
+      "vaporeon",
+      "poliwrath",
+      "tentacool",
+      "tentacruel",
+      "slowpoke",
+      "slowbro",
+      "starmie",
+      "dewgong",
+      "cloyster",
+      "lapras",
+      "gyarados",
+      "omanyte",
+      "omastar",
+      "kabuto",
+      "kabutops"
+    ]
+  },
+  {
+    "type": "grass",
+    "pokemon": [
+      "bulbasaur",
+      "ivysaur",
+      "venusaur",
+      "oddish",
+      "gloom",
+      "vileplume",
+      "bellsprout",
+      "weepinbell",
+      "victreebel",
+      "exeggcute",
+      "exeggutor",
+      "tangela",
+      "paras",
+      "parasect"
+    ]
+  },
+  {
+    "type": "electric",
+    "pokemon": [
+      "pikachu",
+      "raichu",
+      "voltorb",
+      "electrode",
+      "electabuzz",
+      "jolteon",
+      "magnemite",
+      "magneton",
+      "zapdos"
+    ]
+  },
+  {
+    "type": "psychic",
+    "pokemon": [
+      "exeggcute",
+      "exeggutor",
+      "slowpoke",
+      "slowbro",
+      "starmie",
+      "abra",
+      "kadabra",
+      "alakazam",
+      "drowzee",
+      "hypno",
+      "mewtwo",
+      "mew",
+      "mr-mime",
+      "jynx"
+    ]
+  },
+  {
+    "type": "ice",
+    "pokemon": ["dewgong", "cloyster", "lapras", "jynx", "articuno"]
+  },
+  {
+    "type": "dragon",
+    "pokemon": ["dratini", "dragonair", "dragonite"]
+  }
+]
