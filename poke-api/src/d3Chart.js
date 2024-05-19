@@ -68,7 +68,7 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
       d3
         .forceCollide()
         .strength(0.1)
-        .radius(radius + 1)
+        .radius(radius * 1.3)
         .iterations(1)
     ); // Force that avoids circle overlapping
 

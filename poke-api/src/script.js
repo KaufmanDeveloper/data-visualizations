@@ -4,7 +4,7 @@ import { fetchGen1Pokemon, fetchGen1PokemonTypes } from './fetchPokemon.js';
 import { getBubblePlot } from './d3Chart.js';
 
 const width = 1200;
-const height = 800;
+const height = 1000;
 // Create the color scale.
 const color = d3
   .scaleLinear()
