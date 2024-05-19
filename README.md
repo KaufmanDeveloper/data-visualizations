@@ -1,6 +1,6 @@
 # data-visualizations
 
-Data visualization projects using publics APIs
+Data visualization projects using public APIs
 
 ### To develop
 
