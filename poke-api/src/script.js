@@ -1,10 +1,9 @@
 import * as d3 from 'https://esm.sh/d3';
 
-import { fetchGen1Pokemon, fetchGen1PokemonTypes } from './fetchPokemon.js';
 import { getBubblePlot } from './d3Chart.js';
 
 const width = 1200;
-const height = 800;
+const height = 1000;
 // Create the color scale.
 const color = d3
   .scaleLinear()
@@ -20,12 +19,5 @@ let svg = d3
   .attr('height', height);
 
 document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('loading').innerHTML = 'loading...';
-
-  const typesList = await fetchGen1PokemonTypes();
-  const pokemonList = await fetchGen1Pokemon();
-
-  getBubblePlot(svg, typesList, pokemonList, width, height);
-
-  document.getElementById('loading').innerHTML = 'loaded!';
+  getBubblePlot(svg, width, height);
 });

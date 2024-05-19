@@ -1,29 +1,33 @@
 import * as d3 from 'https://esm.sh/d3';
+import { pokemonByTypeFlat, types } from './data/pokemon-gen-1.js';
 
-export function getBubblePlot(svg, typesList, pokemonList, width, height) {
-  const pokemonByFirstGenTypes = _getPokemonByType(typesList, pokemonList);
-  const pokemonByFirstGenTypesFlat = _getPokemonByTypeFlat(
-    pokemonByFirstGenTypes
-  );
+export function getBubblePlot(svg, width, height) {
+  const xTypeRange = _getXRangeArray(types);
+  const yTypeRange = _getYRangeArray(types);
 
-  const typeRange = _getRangeArray(typesList, width - 200);
+  var xPosition = d3.scaleOrdinal().domain(types).range(xTypeRange);
+  var yPosition = d3.scaleOrdinal().domain(types).range(yTypeRange);
 
-  var xPosition = d3.scaleOrdinal().domain(typesList).range(typeRange);
-
-  const radius = 6;
+  const separationAmount = 18;
 
   var node = svg
     .append('g')
-    .selectAll('circle')
-    .data(pokemonByFirstGenTypesFlat)
+    .selectAll('text')
+    .data(pokemonByTypeFlat)
     .enter()
-    .append('circle')
-    .attr('r', radius)
-    .attr('cx', width / 2)
-    .attr('cy', height / 2)
-    .style('fill', (d) => d.color)
-    .attr('stroke', 'black')
-    .style('stroke-width', 0.5);
+    .append('text')
+    .attr('x', width / 2)
+    .attr('y', height / 2)
+    .attr('fill', (d) => d.color)
+    .attr('cursor', 'pointer')
+    .text((d) => d.pokemon)
+    .call(
+      d3
+        .drag() // call specific function when circle is dragged
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)
+    );
 
   // Features of the forces applied to the nodes:
   var simulation = d3
@@ -42,7 +46,9 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
       d3
         .forceY()
         .strength(0.1)
-        .y(height / 2)
+        .y(function (d) {
+          return yPosition(d.type);
+        })
     )
     .force(
       'center',
@@ -54,93 +60,75 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
     .force('charge', d3.forceManyBody().strength(1)) // Nodes are attracted one each other of value is > 0
     .force(
       'collide',
-      d3
-        .forceCollide()
-        .strength(0.1)
-        .radius(radius + 1)
-        .iterations(1)
+      d3.forceCollide().strength(0.1).radius(separationAmount).iterations(1)
     ); // Force that avoids circle overlapping
 
   // Apply these forces to the nodes and update their positions.
   // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-  simulation.nodes(pokemonByFirstGenTypesFlat).on('tick', function (d) {
+  simulation.nodes(pokemonByTypeFlat).on('tick', function (d) {
     node
-      .attr('cx', function (d) {
+      .attr('x', function (d) {
         return d.x;
       })
-      .attr('cy', function (d) {
+      .attr('y', function (d) {
         return d.y;
       });
   });
-}
 
-function _getPokemonByType(typesList, pokemonList) {
-  const pokemonByType = d3.flatGroup(
-    pokemonList,
-    (data) => data.types[0],
-    (data) => data.types[1] ?? 'none'
-  );
-
-  const pokemonByFirstGenTypes = [];
-
-  for (let i = 0; i < typesList.length; i++) {
-    const currentType = typesList[i];
-    const pokemonList = [];
-
-    for (let j = 0; j < pokemonByType.length; j++) {
-      const currentPokemonTypeGrouping = pokemonByType[j];
-
-      const currentTypeMatchesGrouping =
-        currentType === currentPokemonTypeGrouping[0] ||
-        currentType === currentPokemonTypeGrouping[1];
-
-      if (currentTypeMatchesGrouping) {
-        for (let k = 0; k < currentPokemonTypeGrouping[2].length; k++) {
-          const currentPokemonName = currentPokemonTypeGrouping[2][k].name;
-
-          if (!pokemonList.includes(currentPokemonName)) {
-            pokemonList.push(currentPokemonName);
-          }
-        }
-      }
-    }
-
-    pokemonByFirstGenTypes.push({
-      type: currentType,
-      pokemon: pokemonList,
-    });
+  // What happens when a circle is dragged?
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.03).restart();
+    d.fx = d.x;
+    d.fy = d.y;
   }
-
-  return pokemonByFirstGenTypes;
-}
-
-function _getPokemonByTypeFlat(pokemonByType) {
-  const flatPokemonByType = [];
-
-  for (let i = 0; i < pokemonByType.length; i++) {
-    const currentPokemonByType = pokemonByType[i];
-
-    for (let j = 0; j < currentPokemonByType.pokemon.length; j++) {
-      flatPokemonByType.push({
-        type: currentPokemonByType.type,
-        pokemon: currentPokemonByType.pokemon[j],
-        color: _getColorByType(currentPokemonByType.type),
-      });
-    }
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
   }
-
-  return flatPokemonByType;
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0.03);
+    d.fx = null;
+    d.fy = null;
+  }
 }
 
-function _getRangeArray(typesList, width) {
-  const separateAmount = width / typesList.length;
+function _getXRangeArray(typesList) {
+  const separateAmount = 200;
   let currentXPosition = 0;
   let range = [];
+  let rowCounter = 0;
 
   for (let i = 0; i < typesList.length; i++) {
     range.push(currentXPosition);
 
+    rowCounter++;
     currentXPosition += separateAmount;
+
+    if (rowCounter >= 5) {
+      currentXPosition = 0;
+      rowCounter = 0;
+    }
+  }
+
+  return range;
+}
+
+function _getYRangeArray(typesList) {
+  const separateAmount = 300;
+
+  let currentYPosition = 0;
+  let range = [];
+  let rowCounter = 0;
+
+  for (let i = 0; i < typesList.length; i++) {
+    range.push(currentYPosition);
+
+    rowCounter++;
+
+    if (rowCounter >= 5) {
+      currentYPosition += separateAmount;
+      rowCounter = 0;
+    }
   }
 
   return range;
