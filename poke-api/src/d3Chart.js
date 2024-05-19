@@ -1,23 +1,19 @@
 import * as d3 from 'https://esm.sh/d3';
+import { pokemonByTypeFlat, types } from './data/pokemon-gen-1.js';
 
-export function getBubblePlot(svg, typesList, pokemonList, width, height) {
-  const pokemonByFirstGenTypes = _getPokemonByType(typesList, pokemonList);
-  const pokemonByFirstGenTypesFlat = _getPokemonByTypeFlat(
-    pokemonByFirstGenTypes
-  );
+export function getBubblePlot(svg, width, height) {
+  const xTypeRange = _getXRangeArray(types);
+  const yTypeRange = _getYRangeArray(types);
 
-  const xTypeRange = _getXRangeArray(typesList);
-  const yTypeRange = _getYRangeArray(typesList);
-
-  var xPosition = d3.scaleOrdinal().domain(typesList).range(xTypeRange);
-  var yPosition = d3.scaleOrdinal().domain(typesList).range(yTypeRange);
+  var xPosition = d3.scaleOrdinal().domain(types).range(xTypeRange);
+  var yPosition = d3.scaleOrdinal().domain(types).range(yTypeRange);
 
   const separationAmount = 18;
 
   var node = svg
     .append('g')
     .selectAll('text')
-    .data(pokemonByFirstGenTypesFlat)
+    .data(pokemonByTypeFlat)
     .enter()
     .append('text')
     .attr('x', width / 2)
@@ -69,7 +65,7 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
 
   // Apply these forces to the nodes and update their positions.
   // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-  simulation.nodes(pokemonByFirstGenTypesFlat).on('tick', function (d) {
+  simulation.nodes(pokemonByTypeFlat).on('tick', function (d) {
     node
       .attr('x', function (d) {
         return d.x;
@@ -94,64 +90,6 @@ export function getBubblePlot(svg, typesList, pokemonList, width, height) {
     d.fx = null;
     d.fy = null;
   }
-}
-
-function _getPokemonByType(typesList, pokemonList) {
-  const pokemonByType = d3.flatGroup(
-    pokemonList,
-    (data) => data.types[0],
-    (data) => data.types[1] ?? 'none'
-  );
-
-  const pokemonByFirstGenTypes = [];
-
-  for (let i = 0; i < typesList.length; i++) {
-    const currentType = typesList[i];
-    const pokemonList = [];
-
-    for (let j = 0; j < pokemonByType.length; j++) {
-      const currentPokemonTypeGrouping = pokemonByType[j];
-
-      const currentTypeMatchesGrouping =
-        currentType === currentPokemonTypeGrouping[0] ||
-        currentType === currentPokemonTypeGrouping[1];
-
-      if (currentTypeMatchesGrouping) {
-        for (let k = 0; k < currentPokemonTypeGrouping[2].length; k++) {
-          const currentPokemonName = currentPokemonTypeGrouping[2][k].name;
-
-          if (!pokemonList.includes(currentPokemonName)) {
-            pokemonList.push(currentPokemonName);
-          }
-        }
-      }
-    }
-
-    pokemonByFirstGenTypes.push({
-      type: currentType,
-      pokemon: pokemonList,
-    });
-  }
-
-  return pokemonByFirstGenTypes;
-}
-
-function _getPokemonByTypeFlat(pokemonByType) {
-  const flatPokemonByType = [];
-
-  for (let i = 0; i < pokemonByType.length; i++) {
-    const currentPokemonByType = pokemonByType[i];
-
-    for (let j = 0; j < currentPokemonByType.pokemon.length; j++) {
-      flatPokemonByType.push({
-        type: currentPokemonByType.type,
-        pokemon: currentPokemonByType.pokemon[j],
-        color: _getColorByType(currentPokemonByType.type),
-      });
-    }
-  }
-
-  return flatPokemonByType;
 }
 
 function _getXRangeArray(typesList) {
